@@ -71,3 +71,6 @@ typings/
 
 # Serverless directories
 .serverless
+
+# vulnerability
+package-lock.json
