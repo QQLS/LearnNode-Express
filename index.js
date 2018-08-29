@@ -11,7 +11,7 @@ const pkg = require('./package.json')
 const app = express()
 
 // 设置模板目录
-app.set('view', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'views'))
 // 设置模板引擎为 ejs
 app.set('view engine', 'ejs')
 
@@ -31,8 +31,25 @@ app.use(session({
     })
 }))
 
+app.use(require('express-formidable')({
+    uploadDir: path.join(__dirname, 'public/img'), // 上传文件目录
+    keepExtensions: true // 保留后缀
+}))
+
 // 用来显示通知
 app.use(flash())
+
+app.locals.blog = {
+    title: pkg.name,
+    description: pkg.description
+}
+
+app.use((rq, rs, next) => {
+    rs.locals.user = rq.session.user
+    rs.locals.success = rq.flash('success').toString()
+    rs.locals.error = rq.flash('error').toString()
+    next()
+})
 
 // 设置路由
 routes(app)
