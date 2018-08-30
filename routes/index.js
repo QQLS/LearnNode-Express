@@ -7,4 +7,9 @@ module.exports = (app) => {
     app.use('/logout', require('./logout'))
     app.use('/posts', require('./posts'))
     app.use('/comments', require('./comments'))
+    app.use((rq, rs, next) => {
+        if (!rs.headersSent) {
+            rs.status(404).render('404')
+        }
+    })
 }

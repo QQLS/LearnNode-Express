@@ -68,7 +68,7 @@ router.post('/', checkNotLogin, (rq, rs, next) => {
         // 写入 flash
         rq.flash('success', '注册成功')
         // 跳到首页
-        rs.redirect('/')
+        rs.redirect('/posts')
     }).catch((e) => {
         // 注册失败, 异步删除上传的头像
         fs.unlink(rq.files.avatar.path, (e) => {})

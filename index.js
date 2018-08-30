@@ -54,6 +54,12 @@ app.use((rq, rs, next) => {
 // 设置路由
 routes(app)
 
+app.use((err, rq, rs, next) => {
+    console.error(err)
+    rq.flash('error', err.message)
+    rs.redirect('/posts')
+})
+
 // 监听端口, 启动程序
 app.listen(config.port, () => {
     console.log(`${pkg.name} listening on port ${config.port}`)
